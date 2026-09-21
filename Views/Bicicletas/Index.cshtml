@@ -1,0 +1,83 @@
+@model IEnumerable<BikeServicePro.ViewModels.Bicicletas.BicicletaListViewModel>
+
+@{
+    ViewData["Title"] = "Bicicletas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nueva Bicicleta
+        </a>
+    </div>
+    <div>
+        <form asp-action="Index" method="get" class="d-flex">
+            <input type="text" name="searchTerm" class="form-control me-2" placeholder="Buscar bicicleta..." value="@ViewData["SearchTerm"]" />
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Bicicleta</th>
+                <th>Cliente</th>
+                <th>Año</th>
+                <th>Color</th>
+                <th>Serie</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var bici in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@bici.Marca</strong> @bici.Modelo
+                        </td>
+                        <td>@bici.ClienteNombre</td>
+                        <td>@bici.Anio</td>
+                        <td>@bici.Color</td>
+                        <td><small class="text-muted">@bici.NumeroSerie</small></td>
+                        <td>
+                            <span class="badge @(bici.Activo ? "bg-success" : "bg-danger")">
+                                @(bici.Activo ? "Activa" : "Inactiva")
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Details" asp-route-id="@bici.Id" class="btn btn-info">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@bici.Id" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@bici.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta bicicleta?');">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-3 d-block"></i>
+                        No hay bicicletas registradas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

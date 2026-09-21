@@ -1,0 +1,96 @@
+@model IEnumerable<BikeServicePro.ViewModels.Inventario.InventarioListViewModel>
+
+@{
+    ViewData["Title"] = "Inventario";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nuevo Ítem
+        </a>
+        <a asp-action="Index" asp-route-soloStockBajo="true" class="btn btn-warning">
+            <i class="bi bi-exclamation-triangle"></i> Stock Bajo
+        </a>
+    </div>
+    <div>
+        <form asp-action="Index" method="get" class="d-flex">
+            <select name="categoria" class="form-select me-2">
+                <option value="">Todas las categorías</option>
+                @foreach (var categoria in ViewBag.Categorias as Dictionary<string, int> ?? new Dictionary<string, int>())
+                {
+                    <option value="@categoria.Key" selected="@(ViewData["Categoria"]?.ToString() == categoria.Key)">
+                        @categoria.Key (@categoria.Value)
+                    </option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="bi bi-funnel"></i> Filtrar
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Stock Mínimo</th>
+                <th>Estado</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><strong>@item.Nombre</strong></td>
+                        <td>@item.Categoria</td>
+                        <td>
+                            <span class="badge bg-@(item.StockBajo ? "danger" : item.Cantidad == 0 ? "warning" : "success")">
+                                @item.Cantidad
+                            </span>
+                        </td>
+                        <td>@item.StockMinimo</td>
+                        <td>
+                            <span class="badge bg-@item.StockStatusColor">
+                                @item.StockStatusText
+                            </span>
+                        </td>
+                        <td>@item.Precio.ToString("C")</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este ítem?');">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-3 d-block"></i>
+                        No hay ítems en el inventario
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,159 @@
+@model BikeServicePro.ViewModels.Reparaciones.ReparacionCreateViewModel
+
+@{
+    ViewData["Title"] = "Nueva Reparación";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-plus-circle"></i> Registrar Nueva Reparación
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ClienteId" class="form-label"></label>
+                            <select asp-for="ClienteId" class="form-select" id="ClienteId">
+                                <option value="">Seleccione un cliente...</option>
+                                @if (ViewBag.Clientes != null)
+                                {
+                                    foreach (var cliente in ViewBag.Clientes as IEnumerable<BikeServicePro.ViewModels.Clientes.ClienteListViewModel>)
+                                    {
+                                        <option value="@cliente.Id">@cliente.NombreCompleto</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="ClienteId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="BicicletaId" class="form-label"></label>
+                            <select asp-for="BicicletaId" class="form-select" id="BicicletaId">
+                                <option value="">Seleccione un cliente primero...</option>
+                                @if (ViewBag.Bicicletas != null)
+                                {
+                                    foreach (var bicicleta in ViewBag.Bicicletas as IEnumerable<BikeServicePro.ViewModels.Bicicletas.BicicletaListViewModel>)
+                                    {
+                                        <option value="@bicicleta.Id">@bicicleta.NombreCompleto</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="BicicletaId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MecanicoId" class="form-label"></label>
+                            <select asp-for="MecanicoId" class="form-select">
+                                <option value="">Asignar mecánico...</option>
+                                @if (ViewBag.Mecanicos != null)
+                                {
+                                    foreach (var mecanico in ViewBag.Mecanicos as IEnumerable<BikeServicePro.ViewModels.Mecanicos.MecanicoListViewModel>)
+                                    {
+                                        <option value="@mecanico.Id">@mecanico.NombreCompleto</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="MecanicoId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Prioridad" class="form-label"></label>
+                            <select asp-for="Prioridad" class="form-select" asp-items="Html.GetEnumSelectList<BikeServicePro.Models.Prioridad>()">
+                                <option value="">Seleccione prioridad...</option>
+                            </select>
+                            <span asp-validation-for="Prioridad" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Diagnostico" class="form-label"></label>
+                        <textarea asp-for="Diagnostico" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Diagnostico" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Observaciones" class="form-label"></label>
+                        <textarea asp-for="Observaciones" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CostoManoObra" class="form-label"></label>
+                            <input asp-for="CostoManoObra" class="form-control" type="number" step="0.01" />
+                            <span asp-validation-for="CostoManoObra" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CostoRepuestos" class="form-label"></label>
+                            <input asp-for="CostoRepuestos" class="form-control" type="number" step="0.01" />
+                            <span asp-validation-for="CostoRepuestos" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Costo Total</label>
+                            <input class="form-control" id="costoTotal" value="$0.00" disabled />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input asp-for="EsGarantia" class="form-check-input" />
+                        <label asp-for="EsGarantia" class="form-check-label"></label>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.getElementById('CostoManoObra').addEventListener('input', calcularTotal);
+        document.getElementById('CostoRepuestos').addEventListener('input', calcularTotal);
+        
+        function calcularTotal() {
+            const manoObra = parseFloat(document.getElementById('CostoManoObra').value) || 0;
+            const repuestos = parseFloat(document.getElementById('CostoRepuestos').value) || 0;
+            const total = manoObra + repuestos;
+            document.getElementById('costoTotal').value = '$' + total.toFixed(2);
+        }
+
+        document.getElementById('ClienteId').addEventListener('change', function() {
+            const clienteId = this.value;
+            const bicicletaSelect = document.getElementById('BicicletaId');
+            bicicletaSelect.innerHTML = '<option value="">Cargando...</option>';
+            
+            if (clienteId) {
+                fetch(`/Bicicletas/GetByCliente?clienteId=${clienteId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        bicicletaSelect.innerHTML = '<option value="">Seleccione una bicicleta...</option>';
+                        data.forEach(bicicleta => {
+                            const option = document.createElement('option');
+                            option.value = bicicleta.id;
+                            option.textContent = bicicleta.nombreCompleto;
+                            bicicletaSelect.appendChild(option);
+                        });
+                    })
+                    .catch(() => {
+                        bicicletaSelect.innerHTML = '<option value="">Error al cargar bicicletas</option>';
+                    });
+            } else {
+                bicicletaSelect.innerHTML = '<option value="">Seleccione un cliente primero...</option>';
+            }
+        });
+    </script>
+}

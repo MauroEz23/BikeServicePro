@@ -1,0 +1,157 @@
+@model BikeServicePro.ViewModels.Dashboard.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard de Reportes";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Resumen general del taller.
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card bg-primary bg-opacity-10 border-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title text-muted">Total Reparaciones</h6>
+                        <h2 class="mb-0">@Model.TotalReparaciones</h2>
+                    </div>
+                    <i class="bi bi-tools fs-1 text-primary"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success bg-opacity-10 border-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title text-muted">Completadas</h6>
+                        <h2 class="mb-0">@Model.ReparacionesCompletadas</h2>
+                    </div>
+                    <i class="bi bi-check-circle fs-1 text-success"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning bg-opacity-10 border-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title text-muted">Activas</h6>
+                        <h2 class="mb-0">@Model.ReparacionesActivas</h2>
+                    </div>
+                    <i class="bi bi-clock-history fs-1 text-warning"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info bg-opacity-10 border-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title text-muted">Ingresos Totales</h6>
+                        <h2 class="mb-0">@Model.IngresosTotales.ToString("C")</h2>
+                    </div>
+                    <i class="bi bi-coin fs-1 text-info"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-graph-up"></i> Reparaciones por Mes
+            </div>
+            <div class="card-body">
+                <canvas id="reparacionesMesChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pie-chart"></i> Estado de Reparaciones
+            </div>
+            <div class="card-body">
+                <canvas id="estadoChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Datos de reparaciones por mes
+        const meses = @Html.Raw(Json.Serialize(Model.ReparacionesPorMes.Keys));
+        const valores = @Html.Raw(Json.Serialize(Model.ReparacionesPorMes.Values));
+
+        // Gráfico de reparaciones por mes
+        const ctx1 = document.getElementById('reparacionesMesChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Reparaciones',
+                    data: valores,
+                    backgroundColor: 'rgba(88, 166, 255, 0.7)',
+                    borderColor: 'rgba(88, 166, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Datos de estado de reparaciones
+        const estados = @Html.Raw(Json.Serialize(Model.ReparacionesPorEstado.Keys));
+        const cantidades = @Html.Raw(Json.Serialize(Model.ReparacionesPorEstado.Values));
+        const colores = ['#ffc107', '#0dcaf0', '#dc3545', '#0d6efd', '#198754', '#6c757d', '#212529'];
+
+        // Gráfico de estado de reparaciones
+        const ctx2 = document.getElementById('estadoChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: estados,
+                datasets: [{
+                    data: cantidades,
+                    backgroundColor: colores
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#f0f6fc',
+                            font: { size: 10 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

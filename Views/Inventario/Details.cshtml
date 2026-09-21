@@ -1,0 +1,100 @@
+@model BikeServicePro.ViewModels.Inventario.InventarioListViewModel
+
+@{
+    ViewData["Title"] = "Detalle de Ítem";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-box"></i> Detalle del Ítem</span>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información del Ítem</h6>
+                        <dl class="row">
+                            <dt class="col-sm-4">Nombre</dt>
+                            <dd class="col-sm-8">@Model.Nombre</dd>
+                            
+                            <dt class="col-sm-4">Categoría</dt>
+                            <dd class="col-sm-8">@Model.Categoria</dd>
+                            
+                            <dt class="col-sm-4">Subcategoría</dt>
+                            <dd class="col-sm-8">@Model.SubCategoria</dd>
+                            
+                            <dt class="col-sm-4">Código Interno</dt>
+                            <dd class="col-sm-8">@Model.CodigoInterno</dd>
+                            
+                            <dt class="col-sm-4">Código de Barras</dt>
+                            <dd class="col-sm-8">@Model.CodigoBarras</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Stock y Precios</h6>
+                        <dl class="row">
+                            <dt class="col-sm-5">Cantidad</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge bg-@Model.StockStatusColor" style="font-size: 1rem;">
+                                    @Model.Cantidad
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-5">Stock Mínimo</dt>
+                            <dd class="col-sm-7">@Model.StockMinimo</dd>
+                            
+                            <dt class="col-sm-5">Estado</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge bg-@Model.StockStatusColor">
+                                    @Model.StockStatusText
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-5">Costo</dt>
+                            <dd class="col-sm-7">@Model.Costo.ToString("C")</dd>
+                            
+                            <dt class="col-sm-5">Precio</dt>
+                            <dd class="col-sm-7">@Model.Precio.ToString("C")</dd>
+                            
+                            <dt class="col-sm-5">Margen de Ganancia</dt>
+                            <dd class="col-sm-7 text-success">@Model.PorcentajeGanancia.ToString("F1")%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Proveedor</h6>
+                        <p>@(string.IsNullOrEmpty(Model.Proveedor) ? "No especificado" : Model.Proveedor)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Ubicación</h6>
+                        <p>@(string.IsNullOrEmpty(Model.Ubicacion) ? "No especificada" : Model.Ubicacion)</p>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <h6 class="text-muted">Última Actualización</h6>
+                    <p>@Model.FechaActualizacion.ToString("dd/MM/yyyy HH:mm")</p>
+                </div>
+
+                @if (Model.StockBajo)
+                {
+                    <div class="alert alert-warning mt-3">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>¡Stock Bajo!</strong> La cantidad actual (@Model.Cantidad) está por debajo del stock mínimo (@Model.StockMinimo).
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

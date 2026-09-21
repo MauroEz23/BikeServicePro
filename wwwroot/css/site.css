@@ -1,0 +1,246 @@
+/* ============================================
+   SITE.CSS - Estilos base
+   ============================================ */
+
+/* ===== GENERAL ===== */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #0d1117;
+    color: #f0f6fc;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: #161b22;
+    color: #8b949e;
+    border-top: 1px solid #30363d;
+}
+
+/* ===== NAVBAR ===== */
+.navbar-brand {
+    font-weight: 700;
+    color: #f0f6fc;
+}
+
+.navbar-brand:hover {
+    color: #f0f6fc;
+}
+
+/* ===== TABLES - FORZAR TEXTO LEGIBLE ===== */
+.table-responsive {
+    background: #1c2333;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    padding: 0.5rem;
+}
+
+.table {
+    color: #f0f6fc !important;
+}
+
+.table th,
+.table td {
+    color: #f0f6fc !important;
+}
+
+.table th a,
+.table td a {
+    color: #58a6ff !important;
+}
+
+.table th a:hover,
+.table td a:hover {
+    color: #79c0ff !important;
+}
+
+/* ============================================
+   BADGES - TEXTO LEGIBLE
+   ============================================ */
+.badge {
+    font-weight: 500;
+}
+
+.badge.bg-success {
+    color: #ffffff !important;
+    background-color: #238636 !important;
+}
+
+.badge.bg-danger {
+    color: #ffffff !important;
+    background-color: #da3633 !important;
+}
+
+.badge.bg-warning {
+    color: #0d1117 !important;
+    background-color: #d29922 !important;
+}
+
+.badge.bg-info {
+    color: #ffffff !important;
+    background-color: #1f6feb !important;
+}
+
+.badge.bg-primary {
+    color: #ffffff !important;
+    background-color: #1f6feb !important;
+}
+
+.badge.bg-secondary {
+    color: #ffffff !important;
+    background-color: #30363d !important;
+}
+
+/* ===== CHARTS ===== */
+.chart-container {
+    position: relative;
+    height: 250px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ===== UTILITY ===== */
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ===== FORMS ===== */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* ===== VALIDATION ===== */
+.field-validation-error {
+    color: #f85149;
+    font-size: 0.875rem;
+}
+
+.input-validation-error {
+    border-color: #f85149 !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .table-responsive {
+        padding: 0.25rem;
+    }
+    
+    .table td, .table th {
+        padding: 0.4rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== PRINT ===== */
+@media print {
+    .sidebar {
+        display: none !important;
+    }
+    
+    .btn {
+        display: none !important;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* ===== CUSTOM SCROLL ===== */
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: #0d1117;
+    border-radius: 3px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 3px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #8b949e;
+}
+
+/* ============================================
+   ALERTAS - TEXTO LEGIBLE
+   ============================================ */
+.alert {
+    color: #f0f6fc !important;
+}
+
+.alert-success {
+    color: #3fb950 !important;
+}
+
+.alert-danger {
+    color: #f85149 !important;
+}
+
+.alert-warning {
+    color: #d29922 !important;
+}
+
+.alert-info {
+    color: #58a6ff !important;
+}
+
+/* ============================================
+   DL / DT / DD
+   ============================================ */
+dt {
+    color: #8b949e !important;
+}
+
+dd {
+    color: #f0f6fc !important;
+}
+
+/* ============================================
+   PÁGINA DE LOGIN
+   ============================================ */
+.login-container .form-control {
+    color: #f0f6fc !important;
+}
+
+.login-container .form-control::placeholder {
+    color: #8b949e !important;
+}
+
+.login-container .form-label {
+    color: #f0f6fc !important;
+}
+
+.login-container .text-muted-custom {
+    color: #8b949e !important;
+}

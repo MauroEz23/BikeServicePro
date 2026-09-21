@@ -1,0 +1,112 @@
+@model BikeServicePro.ViewModels.Clientes.ClienteDetailViewModel
+
+@{
+    ViewData["Title"] = "Detalle de Cliente";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-person-badge"></i> Detalle del Cliente</span>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información Personal</h6>
+                        <dl class="row">
+                            <dt class="col-sm-4">Nombre completo</dt>
+                            <dd class="col-sm-8">@Model.NombreCompleto</dd>
+                            
+                            <dt class="col-sm-4">Email</dt>
+                            <dd class="col-sm-8">@Model.Email</dd>
+                            
+                            <dt class="col-sm-4">Teléfono</dt>
+                            <dd class="col-sm-8">@Model.Telefono</dd>
+                            
+                            <dt class="col-sm-4">Dirección</dt>
+                            <dd class="col-sm-8">@Model.Direccion</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Estadísticas</h6>
+                        <dl class="row">
+                            <dt class="col-sm-6">Bicicletas</dt>
+                            <dd class="col-sm-6">@Model.TotalBicicletas</dd>
+                            
+                            <dt class="col-sm-6">Reparaciones</dt>
+                            <dd class="col-sm-6">@Model.TotalReparaciones</dd>
+                            
+                            <dt class="col-sm-6">Total gastado</dt>
+                            <dd class="col-sm-6">@Model.TotalGastado.ToString("C")</dd>
+                            
+                            <dt class="col-sm-6">Estado</dt>
+                            <dd class="col-sm-6">
+                                <span class="badge @(Model.Activo ? "bg-success" : "bg-danger")">
+                                    @(Model.Activo ? "Activo" : "Inactivo")
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- CORREGIDO: Mostrar Observaciones si existen -->
+                @if (!string.IsNullOrEmpty(Model.Observaciones))
+                {
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h6 class="text-muted">Observaciones</h6>
+                            <p class="alert alert-secondary" style="color: #f0f6fc !important; background-color: #1c2333 !important; border-color: #30363d !important;">
+                                @Model.Observaciones
+                            </p>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Bicicletas.Any())
+                {
+                    <h6 class="text-muted mt-4">Bicicletas del Cliente</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Año</th>
+                                    <th>Color</th>
+                                    <th>Serie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var bici in Model.Bicicletas)
+                                {
+                                    <tr>
+                                        <td>@bici.Marca</td>
+                                        <td>@bici.Modelo</td>
+                                        <td>@bici.Anio</td>
+                                        <td>@bici.Color</td>
+                                        <td>@bici.NumeroSerie</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle"></i> Este cliente no tiene bicicletas registradas.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+@model BikeServicePro.ViewModels.Mecanicos.MecanicoDetailViewModel
+
+@{
+    ViewData["Title"] = "Detalle de Mecánico";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-person-gear"></i> Detalle del Mecánico</span>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información Personal</h6>
+                        <dl class="row">
+                            <dt class="col-sm-4">Nombre completo</dt>
+                            <dd class="col-sm-8">@Model.NombreCompleto</dd>
+                            
+                            <dt class="col-sm-4">Especialidad</dt>
+                            <dd class="col-sm-8">@Model.Especialidad</dd>
+                            
+                            <dt class="col-sm-4">Email</dt>
+                            <dd class="col-sm-8">@Model.Email</dd>
+                            
+                            <dt class="col-sm-4">Teléfono</dt>
+                            <dd class="col-sm-8">@Model.Telefono</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información Laboral</h6>
+                        <dl class="row">
+                            <dt class="col-sm-6">Fecha de contratación</dt>
+                            <dd class="col-sm-6">@Model.FechaContratacion.ToString("dd/MM/yyyy")</dd>
+                            
+                            <dt class="col-sm-6">Años de experiencia</dt>
+                            <dd class="col-sm-6">@Model.AñosExperiencia años</dd>
+                            
+                            <dt class="col-sm-6">Reparaciones asignadas</dt>
+                            <dd class="col-sm-6">@Model.ReparacionesAsignadas</dd>
+                            
+                            <dt class="col-sm-6">Reparaciones activas</dt>
+                            <dd class="col-sm-6">@Model.ReparacionesActivas</dd>
+                            
+                            <dt class="col-sm-6">Estado</dt>
+                            <dd class="col-sm-6">
+                                <span class="badge @(Model.Activo ? "bg-success" : "bg-danger")">
+                                    @(Model.Activo ? "Activo" : "Inactivo")
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Certificaciones))
+                {
+                    <div class="mt-3">
+                        <h6 class="text-muted">Certificaciones</h6>
+                        <p>@Model.Certificaciones</p>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.HorarioTrabajo))
+                {
+                    <div class="mt-3">
+                        <h6 class="text-muted">Horario de Trabajo</h6>
+                        <p>@Model.HorarioTrabajo</p>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.FotoUrl))
+                {
+                    <div class="mt-3 text-center">
+                        <img src="@Model.FotoUrl" alt="Foto de @Model.NombreCompleto" style="max-width: 200px; max-height: 200px; border-radius: 50%;" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

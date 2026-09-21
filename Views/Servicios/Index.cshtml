@@ -1,0 +1,82 @@
+@model IEnumerable<BikeServicePro.ViewModels.Servicios.ServicioListViewModel>
+
+@{
+    ViewData["Title"] = "Servicios";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nuevo Servicio
+        </a>
+    </div>
+    <div>
+        <form asp-action="Index" method="get" class="d-flex">
+            <select name="categoria" class="form-select me-2">
+                <option value="">Todas las categorías</option>
+                @foreach (var categoria in ViewBag.Categorias as Dictionary<string, int> ?? new Dictionary<string, int>())
+                {
+                    <option value="@categoria.Key" selected="@(ViewData["Categoria"]?.ToString() == categoria.Key)">
+                        @categoria.Key (@categoria.Value)
+                    </option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="bi bi-funnel"></i> Filtrar
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model.Any())
+    {
+        @foreach (var servicio in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">
+                                    <i class="bi @servicio.Icono"></i> @servicio.Nombre
+                                </h5>
+                                <h6 class="card-subtitle text-muted">@servicio.CategoriaNombre</h6>
+                            </div>
+                            <span class="badge @(servicio.Activo ? "bg-success" : "bg-danger")">
+                                @servicio.StatusText
+                            </span>
+                        </div>
+                        <p class="card-text mt-2">@servicio.Descripcion</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-primary fs-5">@servicio.PrecioBase.ToString("C")</span>
+                                <br />
+                                <small class="text-muted">@servicio.TiempoEstimadoString</small>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Edit" asp-route-id="@servicio.Id" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@servicio.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este servicio?');">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-inbox fs-1 d-block"></i>
+                <p>No hay servicios registrados</p>
+            </div>
+        </div>
+    }
+</div>

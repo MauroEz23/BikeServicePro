@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BikeService Pro</title>
+    
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            @if (Context.Session.GetString("IsAuthenticated") == "true")
+            {
+                var rol = Context.Session.GetString("Rol");
+                var esAdmin = rol == "Administrador";
+                var esRecepcionista = rol == "Recepcionista";
+                var esMecanico = rol == "Mecanico";
+                
+                <nav class="col-md-2 d-md-block sidebar">
+                    <div class="position-sticky pt-3">
+                        <div class="sidebar-brand text-center py-3">
+                            <i class="bi bi-bicycle fs-1"></i>
+                            <h5 class="mt-2">BikeService Pro</h5>
+                            <small class="text-muted">@rol</small>
+                        </div>
+                        <ul class="nav flex-column">
+                            <!-- Dashboard - Todos -->
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">
+                                    <i class="bi bi-house"></i> Dashboard
+                                </a>
+                            </li>
+                            
+                            <!-- Clientes - Admin y Recepcionista -->
+                            @if (esAdmin || esRecepcionista)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clientes" ? "active" : "")" href="@Url.Action("Index", "Clientes")">
+                                        <i class="bi bi-people"></i> Clientes
+                                    </a>
+                                </li>
+                            }
+                            
+                            <!-- Bicicletas - Admin y Recepcionista -->
+                            @if (esAdmin || esRecepcionista)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Bicicletas" ? "active" : "")" href="@Url.Action("Index", "Bicicletas")">
+                                        <i class="bi bi-bicycle"></i> Bicicletas
+                                    </a>
+                                </li>
+                            }
+                            
+                            <!-- Reparaciones - Todos -->
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reparaciones" ? "active" : "")" href="@Url.Action("Index", "Reparaciones")">
+                                    <i class="bi bi-tools"></i> Reparaciones
+                                </a>
+                            </li>
+                            
+                            <!-- Inventario - SOLO Admin -->
+                            @if (esAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventario" ? "active" : "")" href="@Url.Action("Index", "Inventario")">
+                                        <i class="bi bi-boxes"></i> Inventario
+                                    </a>
+                                </li>
+                            }
+                            
+                            <!-- Servicios - SOLO Admin -->
+                            @if (esAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Servicios" ? "active" : "")" href="@Url.Action("Index", "Servicios")">
+                                        <i class="bi bi-list-check"></i> Servicios
+                                    </a>
+                                </li>
+                            }
+                            
+                            <!-- Mecánicos - SOLO Admin -->
+                            @if (esAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Mecanicos" ? "active" : "")" href="@Url.Action("Index", "Mecanicos")">
+                                        <i class="bi bi-person-gear"></i> Mecánicos
+                                    </a>
+                                </li>
+                            }
+                            
+                            <!-- Reportes - SOLO Admin -->
+                            @if (esAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reportes" ? "active" : "")" href="@Url.Action("Dashboard", "Reportes")">
+                                        <i class="bi bi-graph-up"></i> Reportes
+                                    </a>
+                                </li>
+                            }
+                            
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-danger" href="@Url.Action("Logout", "Account")">
+                                    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            }
+
+            <!-- Main Content -->
+            <main class="@(Context.Session.GetString("IsAuthenticated") == "true" ? "col-md-10 ms-sm-auto px-md-4" : "col-12")">
+                @if (Context.Session.GetString("IsAuthenticated") == "true")
+                {
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">@ViewData["Title"]</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <span class="text-muted me-3">
+                                <i class="bi bi-person-circle"></i> @Context.Session.GetString("NombreCompleto")
+                            </span>
+                        </div>
+                    </div>
+                }
+                
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i> @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="~/js/site.js"></script>
+    
+    <!-- Renderizar la sección Scripts si existe -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

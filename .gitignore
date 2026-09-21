@@ -1,0 +1,56 @@
+# ============================================
+# .NET / Visual Studio
+# ============================================
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ============================================
+# Visual Studio Code
+# ============================================
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ============================================
+# Archivos de compilación
+# ============================================
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# ============================================
+# Archivos de datos locales (opcional)
+# ============================================
+# Descomenta si NO quieres subir los datos de ejemplo
+# DataStorage/*.json
+# DataStorage/*.backup
+# DataStorage/*.tmp
+# DataStorage/Backups/
+
+# ============================================
+# Sistema operativo
+# ============================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/

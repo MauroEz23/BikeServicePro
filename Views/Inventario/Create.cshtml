@@ -1,0 +1,107 @@
+@model BikeServicePro.ViewModels.Inventario.InventarioCreateViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Ítem de Inventario";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-box"></i> Registrar Nuevo Ítem de Inventario
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Categoria" class="form-label"></label>
+                            <input asp-for="Categoria" class="form-control" placeholder="Ej: Repuestos, Herramientas" />
+                            <span asp-validation-for="Categoria" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="SubCategoria" class="form-label"></label>
+                            <input asp-for="SubCategoria" class="form-control" placeholder="Ej: Cadenas, Frenos" />
+                            <span asp-validation-for="SubCategoria" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Cantidad" class="form-label"></label>
+                            <input asp-for="Cantidad" class="form-control" type="number" />
+                            <span asp-validation-for="Cantidad" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="StockMinimo" class="form-label"></label>
+                            <input asp-for="StockMinimo" class="form-control" type="number" />
+                            <span asp-validation-for="StockMinimo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CodigoInterno" class="form-label"></label>
+                            <input asp-for="CodigoInterno" class="form-control" />
+                            <span asp-validation-for="CodigoInterno" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Costo" class="form-label"></label>
+                            <input asp-for="Costo" class="form-control" type="number" step="0.01" />
+                            <span asp-validation-for="Costo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Precio" class="form-label"></label>
+                            <input asp-for="Precio" class="form-control" type="number" step="0.01" />
+                            <span asp-validation-for="Precio" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Proveedor" class="form-label"></label>
+                            <input asp-for="Proveedor" class="form-control" />
+                            <span asp-validation-for="Proveedor" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Ubicacion" class="form-label"></label>
+                            <input asp-for="Ubicacion" class="form-control" placeholder="Ej: Estante A1" />
+                            <span asp-validation-for="Ubicacion" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CodigoBarras" class="form-label"></label>
+                        <input asp-for="CodigoBarras" class="form-control" />
+                        <span asp-validation-for="CodigoBarras" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input asp-for="Activo" class="form-check-input" />
+                        <label asp-for="Activo" class="form-check-label"></label>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
