@@ -1,0 +1,27 @@
+# Carpetas de compilación
+bin/
+obj/
+out/
+
+# Archivos de Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Archivos de Git
+.git/
+.gitignore
+
+# Datos locales (opcional - ver nota abajo)
+# DataStorage/*.json
+# DataStorage/*.backup
+# DataStorage/*.tmp
+
+# Logs
+*.log
+logs/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
